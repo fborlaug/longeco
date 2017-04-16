@@ -11,7 +11,9 @@
 
 <body>
 <div>
-  <h2>An error was encountered and handled by the global exception handler.</h2>
+  <h2>An error was encountered.</h2>
+
+  <a href="<spring:url value='/home'/>">Home</a>
 </div>
 </body>
 

@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "longeco.current.eventuid",
+      "type": "java.lang.String",
+      "description": "Current active event."
+    }
+  ]
+}
