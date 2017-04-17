@@ -1,11 +1,11 @@
-package com.ambita.report;
+package com.ambita.model.report;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UserDistance {
+public class UserSum {
   public String name;
-  public Integer distance;
+  public Integer sum;
 }

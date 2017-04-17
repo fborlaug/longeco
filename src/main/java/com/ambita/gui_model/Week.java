@@ -1,15 +1,12 @@
 package com.ambita.gui_model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static java.util.Calendar.WEEK_OF_YEAR;
-import static java.util.Calendar.YEAR;
-import static java.util.Calendar.getInstance;
+import static com.ambita.util.DateUtil.calculateNextAndPreviousWeek;
 
 @Data
 @NoArgsConstructor
@@ -29,22 +26,11 @@ public class Week {
   public Week(int weekNumber, int year, List<Day> days) {
     this.weekNumber = weekNumber;
     this.year = year;
-
-    this.calculateNextAndPreviousWeek();
-
+    int[] nextAndPreviousWeek = calculateNextAndPreviousWeek(weekNumber, year);
+    this.previousWeekNumber = nextAndPreviousWeek[0];
+    this.previousYear = nextAndPreviousWeek[1];
+    this.nextWeekNumber = nextAndPreviousWeek[2];
+    this.nextYear = nextAndPreviousWeek[3];
     this.days = new ArrayList<>(days);
-  }
-
-  private void calculateNextAndPreviousWeek() {
-    Calendar cal = getInstance();
-    cal.set(YEAR, this.year);
-    cal.set(WEEK_OF_YEAR, this.weekNumber);
-    cal.add(WEEK_OF_YEAR, 1);
-    this.nextWeekNumber = cal.get(WEEK_OF_YEAR);
-    this.nextYear = cal.get(YEAR);
-
-    cal.add(WEEK_OF_YEAR, -2);
-    this.previousWeekNumber = cal.get(WEEK_OF_YEAR);
-    this.previousYear = cal.get(YEAR);
   }
 }

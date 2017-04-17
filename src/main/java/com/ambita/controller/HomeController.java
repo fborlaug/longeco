@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.ambita.report.UserDistance;
+import com.ambita.model.report.UserSum;
 import com.ambita.service.ReportService;
 
 @Controller
@@ -21,9 +21,11 @@ public class HomeController {
   @GetMapping(value= {"/home", "/"})
   public String home(Model model) {
 
-    List<UserDistance> total = reportService.getTotal();
+    List<UserSum> totalUserDistances = reportService.getTotalUserDistances();
+    model.addAttribute("totalUserDistances", totalUserDistances);
 
-    model.addAttribute("total", total);
+    List<UserSum> totalUserCounts = reportService.getTotalUserCounts();
+    model.addAttribute("totalUserCounts", totalUserCounts);
 
     return "home";
   }

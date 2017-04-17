@@ -10,6 +10,9 @@ import static java.util.stream.IntStream.range;
 
 public class WeekValidator implements Validator {
 
+  private static final int MIN_DISTANCE = 0;
+  private static final int MAX_DISTANCE = 999;
+
   @Override
   public boolean supports(Class<?> clazz) {
     return Week.class.equals(clazz);
@@ -18,18 +21,15 @@ public class WeekValidator implements Validator {
   @Override
   public void validate(Object target, Errors errors) {
     Week week = (Week) target;
-
     range(0, week.getDays().size())
         .forEach(idx -> {
           Day day = week.getDays().get(idx);
           if (day.getDistance() == null) {
             errors.rejectValue("days[" + idx + "].distance", "distance", "The distance must be an positive integer");
           }
-
-          if (day.getDistance() != null && (day.getDistance() < 0 || day.getDistance() > 999)) {
-            errors.rejectValue("days[" + idx + "].distance", "distance", "The distance should be between 0 and 999");
+          if (day.getDistance() != null && (day.getDistance() < MIN_DISTANCE || day.getDistance() > MAX_DISTANCE)) {
+            errors.rejectValue("days[" + idx + "].distance", "distance", "The distance should be between " + MIN_DISTANCE + " and " + MAX_DISTANCE);
           }
         });
-    System.out.println(errors);
   }
 }

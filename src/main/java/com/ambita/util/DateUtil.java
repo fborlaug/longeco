@@ -57,4 +57,19 @@ public class DateUtil {
     }
     return calendar.get(WEEK_OF_YEAR) == week && calendar.get(YEAR) == year;
   }
+
+  public static int[] calculateNextAndPreviousWeek(int week, int year) {
+    Calendar cal = getInstance();
+    cal.set(YEAR, year);
+    cal.set(WEEK_OF_YEAR, week);
+    cal.add(WEEK_OF_YEAR, 1);
+    int nextWeek = cal.get(WEEK_OF_YEAR);
+    int nextYear = cal.get(YEAR);
+
+    cal.add(WEEK_OF_YEAR, -2);
+    int previousWeek = cal.get(WEEK_OF_YEAR);
+    int previousYear = cal.get(YEAR);
+
+    return new int[] {previousWeek, previousYear, nextWeek, nextYear};
+  }
 }

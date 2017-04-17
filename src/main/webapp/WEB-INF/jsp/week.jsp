@@ -1,66 +1,69 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
 <jsp:useBean id="week" scope="request" type="com.ambita.gui_model.Week"/>
+<t:genericpage>
+  <jsp:body>
+    <br/>
+    <ul class="nav">
+      <li class="nav-item">
+        <input type="week" id="jumpWeek" value="${week.year}-W<fmt:formatNumber minIntegerDigits="2" value="${week.weekNumber}" />" oninput="jumpWeek()" onclick="return checkUnsavedData()"/>
+      </li>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Longeco</title>
-</head>
+      <li class="nav-item">
+        <a class="nav-link" href="<spring:url value='/week?weekYear=${week.previousWeekNumber}.${week.previousYear}'/>" onclick="return checkUnsavedData()">
+          <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous week
+        </a>
+      </li>
 
-<body>
-<h1>Week</h1>
+      <li class="nav-item">
+        <a class="nav-link" href="<spring:url value='/week?weekYear=${week.nextWeekNumber}.${week.nextYear}'/>" onclick="return checkUnsavedData()">
+          <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Next week
+        </a>
+      </li>
 
-<label for="jumpWeek">Current week:</label><input type="week" id="jumpWeek" value="${week.year}-W<fmt:formatNumber minIntegerDigits="2" value="${week.weekNumber}" />" oninput="jumpWeek()"/>
+      <li class="nav-item">
+        <a class="nav-link" href="<spring:url value='/week'/>" onclick="return checkUnsavedData()">
+          <i class="fa fa-circle" aria-hidden="true"></i> Today
+        </a>
+      </li>
+    </ul>
 
-<a href="<spring:url value='/week?weekYear=${week.previousWeekNumber}.${week.previousYear}'/>">Previous</a>
-<a href="<spring:url value='/week?weekYear=${week.nextWeekNumber}.${week.nextYear}'/>">Next</a>
+    <div class="jumbotron">
+      <h1>Week</h1>
+      <spring:url value='/week' var="saveUrl"/>
+      <form:form action="${saveUrl}" modelAttribute="week">
+        <form:hidden path="year"/>
+        <form:hidden path="weekNumber"/>
+        <div class="form-group form-inline">
+          <c:forEach items="${week.days}" var="day" varStatus="loopStatus">
+            <div class="container-fluid">
+              <fmt:formatDate value="${day.date}" pattern="EEEE" var="nameOfDay"/>
+              <div>${nameOfDay}</div>
 
-<a href="<spring:url value='/week'/>">Today</a>
-<a href="<spring:url value='/home'/>">Home</a>
+              <c:set var="hasError">
+                <form:errors path="days[${loopStatus.index}].distance"/>
+              </c:set>
+              <form:input cssClass="form-control distance" style="${!hasError.isEmpty() ? \"background-color:red\":\"\"}" path="days[${loopStatus.index}].distance"/>
+              <form:hidden path="days[${loopStatus.index}].date"/>
+            </div>
+          </c:forEach>
+        </div>
 
-<spring:url value='/week' var="saveUrl"/>
-<form:form action="${saveUrl}" modelAttribute="week">
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" value="Submit">Save</button>
+          <button type="reset" class="btn btn-primary" value="Reset">Reset</button>
+        </div>
+      </form:form>
 
-  <form:hidden path="year"/>
-  <form:hidden path="weekNumber"/>
-
-  <table>
-    <tr>
-      <c:forEach items="${week.days}" var="day" varStatus="loopStatus">
-        <td>
-          <fmt:formatDate value="${day.date}" pattern="EEEE" var="nameOfDay"/>
-          <div>${nameOfDay}</div>
-
-          <form:input path="days[${loopStatus.index}].distance"/>
-
-          <div>
-            <form:errors path="days[${loopStatus.index}].distance"/>
-          </div>
-
-          <form:hidden path="days[${loopStatus.index}].date"/>
-        </td>
-      </c:forEach>
-    </tr>
-    <tr>
-      <td colspan="7">
-        <input type="submit" value="Submit"/>
-        <input type="reset" value="Reset"/>
-      </td>
-    </tr>
-  </table>
-
-</form:form>
-
-<form action="<spring:url value='/logout'/>">
-  <input type="submit" value="Sign Out"/>
-</form>
-<script src="<spring:url value='/public/js/longeco.js'/>" type="application/javascript"></script>
-</body>
-</html>
+      <spring:hasBindErrors name="week">
+        <div class="alert alert-danger" role="alert">
+          <strong>Oh snap!</strong>Distances should be an integer between 0 and 999.
+        </div>
+      </spring:hasBindErrors>
+    </div>
+    <script src="<spring:url value='/public/js/longeco.js'/>" type="application/javascript"></script>
+  </jsp:body>
+</t:genericpage>
