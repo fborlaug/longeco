@@ -12,7 +12,7 @@ public class WeekYear {
   private int week = 0;
   private int year = 0;
 
-  private WeekYear(String weekYear) {
+  public WeekYear(String weekYear) {
 
     if (!hasWeekYearValue(weekYear)) {
       week = getCurrentWeekNumber();
@@ -34,7 +34,7 @@ public class WeekYear {
   }
 
   private boolean hasWeekYearValue(String weekYear) {
-    return weekYear == null || weekYear.trim().isEmpty();
+    return weekYear != null && !weekYear.trim().isEmpty();
   }
 
   public static WeekYear today() {

@@ -4,7 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -12,25 +13,18 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Data
-@Table(name = "\"user\"")
-public class User {
+public class PasswordReset {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
   private Long id;
 
   @Column(nullable = false, unique = true)
-  private String username;
+  private String uid;
 
   @Column(nullable = false)
-  private String password;
+  private LocalDateTime created;
 
-  @Column(nullable = false, unique = true)
-  private String email;
-
-  @Column(nullable = false)
-  private String name;
-
-  @Column(nullable = false, columnDefinition = "boolean")
-  private boolean active;
+  @ManyToOne(optional = false)
+  private User user;
 }

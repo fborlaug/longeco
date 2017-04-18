@@ -31,16 +31,16 @@ public class ReportRepository {
     return jdbcTemplate.query("select sum(l.distance) as distance, u.name " +
         "from log l " +
         "left join event e on l.event_id = e.id and e.uid = '" + currentEventUid + "' " +
-        "full join \"user\" u on l.user_id  = u.id " +
+        "left join \"user\" u on l.user_id  = u.id " +
         "group by u.id", (rs, rowNum) -> new UserSum(rs.getString("name"), rs.getInt("distance"))
     );
   }
 
   public List<UserSum> getTotalUserCounts() {
-    return jdbcTemplate.query("select count(1) as count, u.name " +
+    return jdbcTemplate.query("select count(*) as count, u.name " +
         "from log l " +
         "left join event e on l.event_id = e.id and e.uid = '" + currentEventUid + "' " +
-        "full join \"user\" u on l.user_id  = u.id " +
+        "left join \"user\" u on l.user_id  = u.id " +
         "group by u.id", (rs, rowNum) -> new UserSum(rs.getString("name"), rs.getInt("count"))
     );
   }

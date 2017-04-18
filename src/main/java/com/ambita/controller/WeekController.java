@@ -57,8 +57,8 @@ public class WeekController {
     }
 
     List<Log> logs = mapDaysToLogs(week.getDays());
-    logService.saveWeek(week.getWeekNumber(), 2017, logs, principal.getName());
-    return "redirect:/week?weekNumber=" + week.getWeekNumber() + "&year" + week.getYear();
+    logService.saveWeek(week.getWeekNumber(), week.getYear(), logs, principal.getName());
+    return "redirect:/week?weekYear=" + week.getWeekNumber() + "." + week.getYear();
   }
 
   @InitBinder
