@@ -3,7 +3,9 @@ package com.ambita.util;
 import java.util.List;
 
 import com.ambita.gui_model.Day;
+import com.ambita.gui_model.LoggedInUser;
 import com.ambita.model.Log;
+import com.ambita.model.User;
 
 import static java.time.ZoneId.systemDefault;
 import static java.util.Date.from;
@@ -30,6 +32,12 @@ public class MappingUtil {
     return Day.builder()
         .date(from(log.getDate().atStartOfDay(systemDefault()).toInstant()))
         .distance(log.getDistance())
+        .build();
+  }
+
+  public static LoggedInUser mapUserToLoggedInUser(User user) {
+    return LoggedInUser.builder()
+        .name(user.getName())
         .build();
   }
 }

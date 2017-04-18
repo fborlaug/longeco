@@ -1,5 +1,7 @@
 <%@tag description="Overall Page template" language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div id="pageheader">
 
   <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -18,9 +20,21 @@
           <a class="nav-link" href="<spring:url value='/week'/>">Week</a>
         </li>
       </ul>
-      <form action="<spring:url value='/logout'/>" class="form-inline my-2 my-lg-0">
-        <button class="btn btn-danger my-2 my-sm-0" type="submit" value="Sign Out">Sign Out</button>
-      </form>
+
+      <c:choose>
+        <%--@elvariable id="loggedInUser" type="com.ambita.gui_model.LoggedInUser"--%>
+        <c:when test="${not empty loggedInUser}">
+          <form action="<spring:url value='/logout'/>" class="form-inline my-2 my-lg-0">
+            <i class="fa fa-user" aria-hidden="true">&nbsp;</i>${loggedInUser.name}&nbsp;<button class="btn btn-danger my-2 my-sm-0" type="submit" value="Sign Out">Sign Out</button>
+          </form>
+        </c:when>
+        <c:otherwise>
+          <form action="<spring:url value='/login'/>" class="form-inline my-2 my-lg-0">
+            <button class="btn btn-success my-2 my-sm-0" type="submit" value="Login">Login</button>
+          </form>
+        </c:otherwise>
+      </c:choose>
+
     </div>
   </nav>
 

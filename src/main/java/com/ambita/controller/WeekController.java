@@ -39,12 +39,10 @@ public class WeekController {
   public String week(Model model, @RequestParam(required = false) WeekYear weekYear, Principal principal) {
 
     weekYear = (weekYear == null) ? today() : weekYear;
-
     List<Log> logs = logService.getWeek(weekYear.getWeek(), weekYear.getYear(), principal.getName());
-
     Week week = new Week(weekYear.getWeek(), weekYear.getYear(), mapLogsToDays(logs));
-
     model.addAttribute("week", week);
+
     return "week";
   }
 
@@ -61,7 +59,7 @@ public class WeekController {
     return "redirect:/week?weekYear=" + week.getWeekNumber() + "." + week.getYear();
   }
 
-  @InitBinder
+  @InitBinder("week")
   public void initBinder(WebDataBinder binder) {
     binder.addValidators(new WeekValidator());
   }

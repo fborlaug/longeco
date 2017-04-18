@@ -43,7 +43,8 @@
               <fmt:formatDate value="${day.date}" pattern="EEEE" var="nameOfDay"/>
               <div>${nameOfDay}</div>
 
-              <c:set var="hasError">
+                <%--@elvariable id="hasError" type="java.util.List"--%>
+              <c:set var="hasError" >
                 <form:errors path="days[${loopStatus.index}].distance"/>
               </c:set>
               <form:input cssClass="form-control distance" style="${!hasError.isEmpty() ? \"background-color:red\":\"\"}" path="days[${loopStatus.index}].distance"/>
