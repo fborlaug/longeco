@@ -8,7 +8,7 @@
 
     <img src="<spring:url value='/public/images/logo_small.png'/>" width="60" height="60" class="d-inline-block align-top" alt="">
     <a class="navbar-brand" href="#">
-      <h1 class="navbar-brand mb-0">Logeco</h1>
+      <h1 class="navbar-brand mb-0">Longeco</h1>
     </a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
